@@ -12,7 +12,7 @@ if ($IsWindows -or $env:OS -match "Windows") {
 } else {
     $TOPDIR = "/home/cellophane/code/py"
 }
-$PROJECT_FOLDER = "cythons"
+$PROJECT_FOLDER = "cythonraylib"
 $PYX_FILE = "raylib_wrapper"
 $LIB_FILE = "raylib_wrapper" # will have an extension .so or .pyd depending on OS
 
