@@ -1,0 +1,42 @@
+# -*- mode: python; python-indent-offset: 4 -*-
+import sys
+import os
+# If the .pyd/.so is not on the PATH
+sys.path.append(os.path.join(os.path.dirname(__name__), 'modules/'))
+# sys.path.append(os.path.join(os.path.dirname(__name__), 'build/lib.linux-x86_64-cpython-312/'))
+from raylib_wrapper import *
+
+WHITE:    	object =  ColorRGB(255, 255, 255, 255)
+RED:      	object =  ColorRGB(200, 25,   60, 255)
+GREEN:    	object =  ColorRGB(0,   228,  48, 255)
+BLUE:     	object =  ColorRGB(59,  67,  283, 255)
+GREY:     	object =  ColorRGB(100, 122, 155, 255)
+LIGHTGREY:	object =  ColorRGB(205, 205, 205, 255)
+BLUEGREY: 	object =  ColorRGB(59,  67,   83, 255)
+
+def main():
+    set_exit_key(0)
+    exitWindow: bool = False
+    init_window(1280, 720, "Hello from cython")
+    hide_cursor()
+    while (not exitWindow):
+        # if Escape key(key 256) is pressed
+        if (is_key_pressed(256) or window_should_close()):
+            exitWindow = True;
+        begin_drawing()
+        #Clear background with colors RBG ints 
+        #or with a Color(instance of Color "object" or with a ColorRGB(...) return)
+        #clearbg(r=255, b=255, g=255, a=255)
+        clearbg_col(color=ColorRGB(59, 67, 83, 255))
+        draw_rect(x=100, y=100, w=100, h=100, color=ColorRGB(0, 228, 48, 255))
+        draw_circle(center_x=300, center_y=300, radius=10, color=ColorRGB(205, 205, 205, 255))
+        mouseMoved: bool = mDeltaX() or mDeltaY()
+        if mouseMoved:
+            print("Mouse position: ")
+            print(" x: " + str(mouseX()) + ', y: ' + str(mouseY()))
+        draw_circle(center_x=mouseX(), center_y=mouseY(), radius=2, color=ColorRGB(205, 205, 205, 255))
+        end_drawing()
+    close_window()
+if __name__ == "__main__":
+    main()
+    exit(0)
