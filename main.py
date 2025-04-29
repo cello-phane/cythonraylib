@@ -25,17 +25,25 @@ def main():
         if (is_key_pressed(256) or window_should_close()):
             exitWindow = True;
         begin_drawing()
+        
         #Clear background with colors RBG ints 
-        #or with a Color(instance of Color "object" or with a ColorRGB(...) return)
         #clearbg(r=255, b=255, g=255, a=255)
+        
+        # or with a Color(instance of Color "object" or with a ColorRGB(...) return)
         clearbg_col(color=ColorRGB(59, 67, 83, 255))
+        
         draw_rect(x=100, y=100, w=100, h=100, color=ColorRGB(0, 228, 48, 255))
         draw_circle(center_x=300, center_y=300, radius=10, color=ColorRGB(205, 205, 205, 255))
+        
         mouseMoved: bool = mDeltaX() or mDeltaY()
-#        if mouseMoved:
-#            print("Mouse position: ")
-#            print(" x: " + str(mouseX()) + ', y: ' + str(mouseY()))
+        # Logging of mouse position(x,y):
+        # if mouseMoved:
+        #     print("Mouse position: ")
+        #     print(" x: " + str(mouseX()) + ', y: ' + str(mouseY()))
+        
+        # Just for fun replace the Mouse pointer with a tiny circle:
         draw_circle(center_x=mouseX(), center_y=mouseY(), radius=2, color=ColorRGB(205, 205, 205, 255))
+        
         end_drawing()
     close_window()
 if __name__ == "__main__":
