@@ -8,9 +8,9 @@
 #                               ^--- Python virtual env
 
 if ($IsWindows -or $env:OS -match "Windows") {
-    $TOPDIR = "C:\Users\cellophane\code\py"
+    $TOPDIR = "C:\Users\USERNAME\code\py"
 } else {
-    $TOPDIR = "/home/cellophane/code/py"
+    $TOPDIR = "/home/USERNAME/code/py"
 }
 $PROJECT_FOLDER = "cythonraylib"
 $PYX_FILE = "raylib_wrapper"

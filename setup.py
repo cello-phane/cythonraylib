@@ -6,8 +6,8 @@ import os
 # Platform-specific settings
 if platform.system() == "Windows":
     libraries = ["raylib", "opengl32", "gdi32", "winmm"]
-    library_dirs = ["C:/Users/admin/py/cythons/raylib/lib"]
-    include_dirs = ["C:/Users/admin/py/cythons/raylib/include"]
+    library_dirs = ["C:/Users/USERNAME/py/cythons/raylib/lib"]
+    include_dirs = ["C:/Users/USERNAME/py/cythons/raylib/include"]
     extra_compile_args = []
     extra_link_args = []
 else:  # Linux/Mac
