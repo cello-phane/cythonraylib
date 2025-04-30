@@ -6,7 +6,7 @@ if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 sys.path.append(os.path.join(current_dir, 'modules/'))
 from raylib_wrapper import *
-cursor_logging = False
+cursor_logging = True
 def main():
     WHITE:    	object =  ColorRGB(255, 255, 255, 255)
     RED:      	object =  ColorRGB(200, 25,   60, 255)
@@ -18,7 +18,8 @@ def main():
     set_exit_key(0)
     exitWindow: bool = False
 
-    init_window(1280, 720, "Hello from cython")
+    init_window(1920, 1080, "Hello from cython")
+    set_window_state(0x00000002 | 0x00000008 | 0x00000010 | 0x00000040)
     # NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     # Replacing the traditional cursor with a texture of a cursor in png format
     cursor_texture = load_texture("./Resources/mycursor.png")
@@ -38,7 +39,7 @@ def main():
         
         # Draw the texture at the mouse location
         draw_texture(cursor_texture, mouseX(), mouseY(), ColorRGB(255, 255, 255, 255))
-        if cursor_logging:
+        if cursor_logging and (mDeltaX() or mDeltaY()):
             print("Drawing at:", mouseX(), mouseY())
         end_drawing()
         

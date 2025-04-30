@@ -84,6 +84,7 @@ cdef extern from "raylib.h":
     RenderTexture LoadRenderTexture(int width, int height)
     void BeginTextureMode(RenderTexture target)              # Begin drawing to render texture
     void EndTextureMode()                                  # Ends drawing to render texture	    
+    void SetWindowState(unsigned int flags)
 
 cdef double sindf(double x):
     return sin(x)
@@ -235,3 +236,6 @@ def load_image(str file_path):
 
 def load_texture(str file_path):
     return LoadTextureFromImage(LoadImage(file_path.encode('utf-8')))
+
+def set_window_state(unsigned int flags):
+    SetWindowState(flags)
