@@ -1,14 +1,18 @@
 # cython: language_level=3
 # Reminder: bools are always ints in pyx modules(and voids as args can be ommitted I guess?)
+import sys
+import os
 from libc.math cimport sin
+
 cdef extern from "raylib.h":
-    void InitWindow(int width, int height, const char * title)
+    void InitWindow(int width, int height, const char *title)
     void CloseWindow()
     void BeginDrawing()
     void EndDrawing()
     void ClearBackground(Color color)
     void DrawRectangle(int posX, int posY, int width, int height, Color color)
     void DrawCircle(int centerX, int centerY, float radius, Color color)
+
     int WindowShouldClose()
     void WaitTime(double seconds)
     struct Color:
@@ -27,7 +31,7 @@ cdef extern from "raylib.h":
     void DisableCursor()
     int IsCursorOnScreen()
     ## Input Handling Functions (Module: core)
-		## Input-related functions: keyboard
+    ## Input-related functions: keyboard
     int IsKeyPressed(int key)                          # Check if a key has been pressed once
     int IsKeyPressedRepeat(int key)                    # Check if a key has been pressed again (Only PLATFORM_DESKTOP)
     int IsKeyDown(int key)                             # Check if a key is being pressed
@@ -51,6 +55,35 @@ cdef extern from "raylib.h":
     float GetMouseWheelMove()                          # Get mouse wheel movement for X or Y, whichever is larger
     Vector2 GetMouseWheelMoveV()                       # Get mouse wheel movement for both X and Y
     void SetMouseCursor(int cursor)                    # Set mouse cursor
+
+    struct Image:
+        int width
+        int height
+        int mipmaps
+        int format
+    struct Texture:
+        unsigned int id
+        int width
+        int height
+        int mipmaps
+        int format;
+    struct RenderTexture:
+        unsigned int id
+        Texture texture
+        Texture depth
+
+    # Image, pixel data stored in CPU memory (RAM)
+    Image LoadImage(const char *fileName)
+    Texture LoadTexture(const char *fileName)
+    void UnloadImage(Image image)
+    Texture LoadTextureFromImage(Image image)
+    void DrawTexture(Texture texture, int posX, int posY, Color tint)
+    void UnloadTexture(Texture texture)
+    void ImageFormat(Image *image, int newFormat)
+
+    RenderTexture LoadRenderTexture(int width, int height)
+    void BeginTextureMode(RenderTexture target)              # Begin drawing to render texture
+    void EndTextureMode()                                  # Ends drawing to render texture	    
 
 cdef double sindf(double x):
     return sin(x)
@@ -178,3 +211,27 @@ def get_mouse_wheel_move():
 
 def get_mouse_wheel_movev():
     return GetMouseWheelMoveV()
+
+def load_render_tex(int w, int h):
+    return LoadRenderTexture(w, h)
+
+def begin_texmode(RenderTexture target):
+    BeginTextureMode(target)
+
+def end_texmode():
+    EndTextureMode()
+
+def draw_texture(Texture tex, int x, int y, Color col):
+    DrawTexture(tex, x, y, col)
+
+def unload_texture(Texture texture):
+    UnloadTexture(texture)
+
+def unload_image(Image img):
+    UnloadImage(img)
+
+def load_image(str file_path):
+    return LoadImage(file_path.encode('utf-8'))
+
+def load_texture(str file_path):
+    return LoadTextureFromImage(LoadImage(file_path.encode('utf-8')))
