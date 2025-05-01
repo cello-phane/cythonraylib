@@ -7,56 +7,62 @@ if current_dir not in sys.path:
 sys.path.append(os.path.join(current_dir, 'modules/'))
 from raylib_wrapper import *
 cursor_logging = False
+
 def main():
-    screen_width       = int(1920/12) # 160
-    screen_height      = int(1080/12) #  90
-    WHITE:    	object = ColorRGB(255, 255, 255, 255)
-    RED:      	object = ColorRGB(200, 25,   60, 255)
-    GREEN:    	object = ColorRGB(0,   228,  48, 255)
-    BLUE:     	object = ColorRGB(59,  67,  255, 255)
-    GREY:     	object = ColorRGB(100, 122, 155, 255)
-    LIGHTGREY:	object = ColorRGB(205, 205, 205, 255)
-    BLUEGREY: 	object = ColorRGB(59,  67,   83, 255)
-    set_target_fps(60)
+    screen_width = int(1920/4)
+    screen_height = int(1080/4)
+    WHITE = ColorRGB(255, 255, 255, 255)
+    BLACK = ColorRGB(0, 0, 0, 255)
+    BLUEGREY = ColorRGB(59, 67, 83, 255)
+    
+    set_target_fps(120)
     set_exit_key(0)
-    exitWindow: bool = False
+    exitWindow = False
 
-    init_window(screen_width, screen_height, "Hello from cython")
-    # undecorated : 0x00000008 
-    # transparent : 0x00000010
-    # fullscreen  : 0x00000002
-    # resizable   : 0x00000004
-    # vsync hint  : 0x00000040
-    set_window_state(0x00000040 | 0x00000008)
+    init_window(screen_width, screen_height, "TV Static")
 
-    # NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    # Replacing the traditional cursor with a texture of a cursor in png format
     cursor_texture = load_texture("./Resources/mycursor.png")
     hide_cursor()
-    boxw = int(screen_width)
-    boxh = int(screen_height)
+    
+    noise_render_texture = load_render_texture(screen_width, screen_height)
+    noise_texture = get_target_texture(noise_render_texture)
+
+    # Frame counter for update timing
+    frame_counter = 0
+    
     while (not exitWindow):
-        # if Escape key(key 256) is pressed
         if (is_key_pressed(256) or window_should_close()):
-            exitWindow = True;
-        # clearbg_col(color=ColorRGB(59, 67, 83, 255))
+            exitWindow = True
+
+        frame_counter += 1
+
+        begin_texture_mode(noise_render_texture)
+
+        # Cover about 40% of screen with static pixels
+        static_density = int(screen_width * screen_height * 0.4)
+        
+        for _ in range(static_density):
+            x = random(0, screen_width - 1)
+            y = random(0, screen_height - 1)
+            rcol = random(0, int(static_density/4) % 255)
+            color = ColorRGB(rcol, rcol, rcol, 255)
+            draw_rect(x, y, 1, 1, color)
+        
+        end_texture_mode()
 
         begin_drawing()
-        clearbg_col(ColorRGB(59, 67, 83, 255))
-
-        # Random noise with small rectangles(small size because its not a fast shader)
-        for x in range(boxw):
-            for y in range(boxh):
-                draw_rect(x, y, random(0,2), random(0,2), ColorRGB(random(0,255), random(0,255), random(0,255), 255))
         
-        # Draw the texture at the mouse location
-        if mouseDeltaX() or mouseDeltaY():
-            draw_texture(cursor_texture, mouseX(), mouseY(), ColorRGB(255, 255, 255, 255))
-        if cursor_logging and (mDeltaX() or mDeltaY()):
-            print("Drawing at:", mouseX(), mouseY())
+        # Draw the static noise texture
+        draw_texture(noise_texture, 0, 0, WHITE)
+        
+        # Draw a png as a cursor
+        #draw_texture(cursor_texture, mouseX(), mouseY(), WHITE)
+        
         end_drawing()
-        
+
+    unload_texture(cursor_texture)
     close_window()
+
 if __name__ == "__main__":
     main()
     exit(0)

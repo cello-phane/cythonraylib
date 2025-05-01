@@ -2,7 +2,7 @@
 # Reminder: bools are always ints in pyx modules(and voids as args can be ommitted I guess?)
 import sys
 import os
-from libc.math cimport sin
+from libc.math cimport sin, modf
 
 cdef extern from "raylib.h":
     void InitWindow(int width, int height, const char *title)
@@ -95,6 +95,12 @@ def sinf(float x):
 
 def random(int min, int max):
     return GetRandomValue(min, max)
+
+def hash(float n):
+    n = modf(n, (n * 1.123))
+    n *= n + 22.22
+    n *= n
+    return int(n)
 
 def set_target_fps(int fps):
     SetTargetFPS(fps)
@@ -220,13 +226,13 @@ def get_mouse_wheel_move():
 def get_mouse_wheel_movev():
     return GetMouseWheelMoveV()
 
-def load_render_tex(int w, int h):
+def load_render_texture(int w, int h):
     return LoadRenderTexture(w, h)
 
-def begin_texmode(RenderTexture target):
+def begin_texture_mode(RenderTexture target):
     BeginTextureMode(target)
 
-def end_texmode():
+def end_texture_mode():
     EndTextureMode()
 
 def draw_texture(Texture tex, int x, int y, Color col):
@@ -246,3 +252,6 @@ def load_texture(str file_path):
 
 def set_window_state(unsigned int flags):
     SetWindowState(flags)
+
+def get_target_texture(RenderTexture target):
+    return target.texture
