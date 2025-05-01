@@ -20,7 +20,7 @@ def main():
     set_config_flags(0x00000010)#Transparency for the window
     init_window(screen_width, screen_height, "TV Static")
     set_window_state(0x00000008 | 0x00010000)
-    
+    # NOTE: Loading textures must be done after init window
     cursor_texture = load_texture("Resources/mycursor.png")
     tv_texture = load_texture("Resources/tvset.png")
     #hide_cursor()
@@ -44,7 +44,11 @@ def main():
         for _ in range(n_blocks):
             x = random(25, screen_width-235)
             y = random(108, screen_height)
-            rand_grayscale = random(20, 150)
+            ra = random(0, 100)
+            rb = random(5, 15) if ra < 5 else ra
+            r = 200 if rb < 10 else rb
+            rand_grayscale = random(20, 150) if r != 200 else r
+            #rand_grayscale = random(20, 150)
             color = ColorRGB(rand_grayscale, rand_grayscale, rand_grayscale, 255)
             draw_rect(x, y-25, block_size, block_size, color)
         
@@ -62,8 +66,8 @@ def main():
             if mouseDeltaX() or mouseDeltaY():
                 print(f" Frame {frame_counter} | ({mouseX()}, {mouseY()})")
 
-        ##END DRAWING##
         end_drawing()
+        ##END DRAWING##
 
     end_blend_mode()
     unload_texture(cursor_texture)
