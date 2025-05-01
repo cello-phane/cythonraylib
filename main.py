@@ -6,14 +6,13 @@ if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 sys.path.append(os.path.join(current_dir, 'modules/'))
 from raylib_wrapper import *
-cursor_logging = False
+logging = True
 
 def main():
-    screen_width  = 1920 >> 2
-    screen_height = 1080 >> 2
+    screen_width  = 1920 >> 2 # 480
+    screen_height = 1080 >> 2 # 270
     WHITE    = ColorRGB(255, 255, 255, 255)
     BLACK    = ColorRGB(  0,   0,   0, 255)
-    BLUEGRAY = ColorRGB( 59,  67,  83, 255)
     BLANK    = ColorRGB(  0 ,  0,   0,   0)
     set_target_fps(60)
     set_exit_key(0)
@@ -24,19 +23,22 @@ def main():
     
     cursor_texture = load_texture("Resources/mycursor.png")
     tv_texture = load_texture("Resources/tvset.png")
-    hide_cursor()
+    #hide_cursor()
     noise_render_texture = load_render_texture(screen_width, screen_height)
     noise_texture = get_target_texture(noise_render_texture)
 
     # Frame counter for update timing
-    #frame_counter = 0
+    frame_counter = 0
     begin_blend_mode(0)
     clearbg_col(BLANK)
     while (not exitWindow):
         if (is_key_pressed(256) or window_should_close()):
             exitWindow = True
-        #frame_counter += 1
+        frame_counter += 1
+        
+        ##BEGIN TEXTURE##        
         begin_texture_mode(noise_render_texture)
+        
         n_blocks = int(screen_width * screen_height * 0.2)
         block_size = 2
         for _ in range(n_blocks):
@@ -47,18 +49,25 @@ def main():
             draw_rect(x, y-25, block_size, block_size, color)
         
         end_texture_mode()
+        ##END TEXTURE##
 
+        ##BEGIN DRAWING##
         begin_drawing()
+        
         clearbg_col(BLANK)
         draw_texture(tv_texture,    0, 0, WHITE)        
-        # Draw the static noise texture
         draw_texture(noise_texture, 0, 0, ColorRGB(255,255,255,240))
-        # Draw a png as a cursor
-        draw_texture(cursor_texture, mouseX(), mouseY(), WHITE)
-        
+        #draw_texture(cursor_texture, mouseX(), mouseY(), WHITE)
+        if logging:
+            if mouseDeltaX() or mouseDeltaY():
+                print(f" Frame {frame_counter} | ({mouseX()}, {mouseY()})")
+
+        ##END DRAWING##
         end_drawing()
+
     end_blend_mode()
     unload_texture(cursor_texture)
+    unload_texture(tv_texture)
     close_window()
 
 if __name__ == "__main__":
