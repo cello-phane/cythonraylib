@@ -2,11 +2,13 @@
 # Reminder: bools are always ints in pyx modules(and voids as args can be ommitted I guess?)
 import sys
 import os
-from libc.math cimport sin, modf
+from libc.math cimport sin
 
 cdef extern from "raylib.h":
     void InitWindow(int width, int height, const char *title)
     void CloseWindow()
+    void BeginBlendMode(int mode)
+    void EndBlendMode()
     void BeginDrawing()
     void EndDrawing()
     void ClearBackground(Color color)
@@ -33,29 +35,29 @@ cdef extern from "raylib.h":
     int IsCursorOnScreen()
     ## Input Handling Functions (Module: core)
     ## Input-related functions: keyboard
-    int IsKeyPressed(int key)                          # Check if a key has been pressed once
-    int IsKeyPressedRepeat(int key)                    # Check if a key has been pressed again (Only PLATFORM_DESKTOP)
-    int IsKeyDown(int key)                             # Check if a key is being pressed
-    int IsKeyReleased(int key)                         # Check if a key has been released once
-    int IsKeyUp(int key)                               # Check if a key is NOT being pressed
-    int GetKeyPressed()                                # Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
-    int GetCharPressed()                               # Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
-    void SetExitKey(int key)                           # Set a custom key to exit program (default is ESC)
+    int IsKeyPressed(int key)
+    int IsKeyPressedRepeat(int key)
+    int IsKeyDown(int key)
+    int IsKeyReleased(int key)
+    int IsKeyUp(int key)
+    int GetKeyPressed()
+    int GetCharPressed()
+    void SetExitKey(int key)
     ## Input-related functions: mouse
-    int IsMouseButtonPressed(int button)               # Check if a mouse button has been pressed once
-    int IsMouseButtonDown(int button)                  # Check if a mouse button is being pressed
-    int IsMouseButtonReleased(int button)              # Check if a mouse button has been released once
-    int IsMouseButtonUp(int button)                    # Check if a mouse button is NOT being pressed
-    int GetMouseX()                                    # Get mouse position X
-    int GetMouseY()                                    # Get mouse position Y
-    Vector2 GetMousePosition()                         # Get mouse position XY
-    Vector2 GetMouseDelta()                            # Get mouse delta between frames
-    void SetMousePosition(int x, int y)                # Set mouse position XY
-    void SetMouseOffset(int offsetX, int offsetY)      # Set mouse offset
-    void SetMouseScale(float scaleX, float scaleY)     # Set mouse scaling
-    float GetMouseWheelMove()                          # Get mouse wheel movement for X or Y, whichever is larger
-    Vector2 GetMouseWheelMoveV()                       # Get mouse wheel movement for both X and Y
-    void SetMouseCursor(int cursor)                    # Set mouse cursor
+    int IsMouseButtonPressed(int button)
+    int IsMouseButtonDown(int button)
+    int IsMouseButtonReleased(int button)
+    int IsMouseButtonUp(int button)
+    int GetMouseX()
+    int GetMouseY()
+    Vector2 GetMousePosition()
+    Vector2 GetMouseDelta()
+    void SetMousePosition(int x, int y)
+    void SetMouseOffset(int offsetX, int offsetY)
+    void SetMouseScale(float scaleX, float scaleY)
+    float GetMouseWheelMove()
+    Vector2 GetMouseWheelMoveV()
+    void SetMouseCursor(int cursor)
 
     struct Image:
         int width
@@ -83,10 +85,13 @@ cdef extern from "raylib.h":
     void ImageFormat(Image *image, int newFormat)
 
     RenderTexture LoadRenderTexture(int width, int height)
-    void BeginTextureMode(RenderTexture target)              # Begin drawing to render texture
-    void EndTextureMode()                                  # Ends drawing to render texture	    
+    # Begin drawing to render texture
+    void BeginTextureMode(RenderTexture target)
+    # Ends drawing to render texture  
+    void EndTextureMode()                       
     void SetWindowState(unsigned int flags)
-
+    # Configures window to be transparent
+    void SetConfigFlags(unsigned int flags)
 cdef double sindf(double x):
     return sin(x)
 
@@ -95,12 +100,6 @@ def sinf(float x):
 
 def random(int min, int max):
     return GetRandomValue(min, max)
-
-def hash(float n):
-    n = modf(n, (n * 1.123))
-    n *= n + 22.22
-    n *= n
-    return int(n)
 
 def set_target_fps(int fps):
     SetTargetFPS(fps)
@@ -128,6 +127,12 @@ def init_window(int w, int h, str title):
 
 def close_window():
     CloseWindow()
+
+def begin_blend_mode(int mode):
+    BeginBlendMode(mode)
+
+def end_blend_mode():
+    EndBlendMode()
 
 def begin_drawing():
     BeginDrawing()
@@ -252,6 +257,9 @@ def load_texture(str file_path):
 
 def set_window_state(unsigned int flags):
     SetWindowState(flags)
+
+def set_config_flags(unsigned int flags):
+    SetConfigFlags(flags)
 
 def get_target_texture(RenderTexture target):
     return target.texture
