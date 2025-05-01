@@ -9,19 +9,20 @@ from raylib_wrapper import *
 cursor_logging = False
 
 def main():
-    screen_width = int(1920/4)
-    screen_height = int(1080/4)
-    WHITE = ColorRGB(255, 255, 255, 255)
-    BLACK = ColorRGB(0, 0, 0, 255)
-    BLUEGREY = ColorRGB(59, 67, 83, 255)
+    screen_width =  1920 >> 2
+    screen_height = 1080 >> 2
+    WHITE    = ColorRGB(255, 255, 255, 255)
+    BLACK    = ColorRGB(  0,   0,   0, 255)
+    BLUEGREY = ColorRGB( 59,  67,  83, 255)
     
-    set_target_fps(120)
+    set_target_fps(60)
     set_exit_key(0)
     exitWindow = False
 
     init_window(screen_width, screen_height, "TV Static")
 
     cursor_texture = load_texture("./Resources/mycursor.png")
+    tv_texture = load_texture("./Resources/tvset.png")
     hide_cursor()
     
     noise_render_texture = load_render_texture(screen_width, screen_height)
@@ -35,18 +36,15 @@ def main():
             exitWindow = True
 
         frame_counter += 1
-
         begin_texture_mode(noise_render_texture)
-
-        # Cover about 40% of screen with static pixels
-        static_density = int(screen_width * screen_height * 0.4)
-        
-        for _ in range(static_density):
-            x = random(0, screen_width - 1)
-            y = random(0, screen_height - 1)
-            rcol = random(0, int(static_density/4) % 255)
-            color = ColorRGB(rcol, rcol, rcol, 255)
-            draw_rect(x, y, 1, 1, color)
+        n_blocks = int(screen_width * screen_height * 0.2)
+        block_size = 2
+        for _ in range(n_blocks):
+            x = random(0, screen_width)-200
+            y = random(0, screen_height-50)+70
+            rand_grayscale = random(10, 200)
+            color = ColorRGB(rand_grayscale, rand_grayscale, rand_grayscale, 255)
+            draw_rect(x, y, block_size, block_size, color)
         
         end_texture_mode()
 
@@ -54,7 +52,7 @@ def main():
         
         # Draw the static noise texture
         draw_texture(noise_texture, 0, 0, WHITE)
-        
+        draw_texture(tv_texture, 0, 0, WHITE)
         # Draw a png as a cursor
         #draw_texture(cursor_texture, mouseX(), mouseY(), WHITE)
         
