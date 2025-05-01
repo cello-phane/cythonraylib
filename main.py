@@ -40,14 +40,14 @@ def main():
         begin_texture_mode(noise_render_texture)
         
         n_blocks = int(screen_width * screen_height * 0.2)
-        block_size = 2
+        block_size = 1
         for _ in range(n_blocks):
             x = random(25, screen_width-235)
             y = random(108, screen_height)
             ra = random(0, 100)
             rb = random(5, 15) if ra < 5 else ra
-            r = 200 if rb < 10 else rb
-            rand_grayscale = random(20, 150) if r != 200 else r
+            r = 180 if rb < 10 else rb
+            rand_grayscale = random(20, 150) if r < 180 else r
             #rand_grayscale = random(20, 150)
             color = ColorRGB(rand_grayscale, rand_grayscale, rand_grayscale, 255)
             draw_rect(x, y-25, block_size, block_size, color)
