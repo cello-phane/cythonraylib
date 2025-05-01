@@ -8,15 +8,16 @@ sys.path.append(os.path.join(current_dir, 'modules/'))
 from raylib_wrapper import *
 cursor_logging = False
 def main():
-    screen_width  = int(1920/12)
-    screen_height = int(1080/12)
-    WHITE:    	object =  ColorRGB(255, 255, 255, 255)
-    RED:      	object =  ColorRGB(200, 25,   60, 255)
-    GREEN:    	object =  ColorRGB(0,   228,  48, 255)
-    BLUE:     	object =  ColorRGB(59,  67,  255, 255)
-    GREY:     	object =  ColorRGB(100, 122, 155, 255)
-    LIGHTGREY:	object =  ColorRGB(205, 205, 205, 255)
-    BLUEGREY: 	object =  ColorRGB(59,  67,   83, 255)
+    screen_width       = int(1920/12) # 160
+    screen_height      = int(1080/12) #  90
+    WHITE:    	object = ColorRGB(255, 255, 255, 255)
+    RED:      	object = ColorRGB(200, 25,   60, 255)
+    GREEN:    	object = ColorRGB(0,   228,  48, 255)
+    BLUE:     	object = ColorRGB(59,  67,  255, 255)
+    GREY:     	object = ColorRGB(100, 122, 155, 255)
+    LIGHTGREY:	object = ColorRGB(205, 205, 205, 255)
+    BLUEGREY: 	object = ColorRGB(59,  67,   83, 255)
+    set_target_fps(60)
     set_exit_key(0)
     exitWindow: bool = False
 
@@ -26,7 +27,7 @@ def main():
     # fullscreen  : 0x00000002
     # resizable   : 0x00000004
     # vsync hint  : 0x00000040
-    set_window_state(0x00000040)
+    set_window_state(0x00000040 | 0x00000008)
 
     # NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     # Replacing the traditional cursor with a texture of a cursor in png format
@@ -46,11 +47,11 @@ def main():
         # Random noise with small rectangles(small size because its not a fast shader)
         for x in range(boxw):
             for y in range(boxh):
-                rand = random(100,255)
-                draw_rect(x, y, random(0,2), random(0,2), ColorRGB(rand, rand, rand, 255))
+                draw_rect(x, y, random(0,2), random(0,2), ColorRGB(random(0,255), random(0,255), random(0,255), 255))
         
         # Draw the texture at the mouse location
-        draw_texture(cursor_texture, mouseX(), mouseY(), ColorRGB(255, 255, 255, 255))
+        if mouseDeltaX() or mouseDeltaY():
+            draw_texture(cursor_texture, mouseX(), mouseY(), ColorRGB(255, 255, 255, 255))
         if cursor_logging and (mDeltaX() or mDeltaY()):
             print("Drawing at:", mouseX(), mouseY())
         end_drawing()

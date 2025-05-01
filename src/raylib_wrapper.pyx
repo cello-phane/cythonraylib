@@ -15,6 +15,7 @@ cdef extern from "raylib.h":
     int GetRandomValue(int min, int max)
     int WindowShouldClose()
     void WaitTime(double seconds)
+    void SetTargetFPS(int fps)
     struct Color:
         int r
         int g
@@ -95,6 +96,9 @@ def sinf(float x):
 def random(int min, int max):
     return GetRandomValue(min, max)
 
+def set_target_fps(int fps):
+    SetTargetFPS(fps)
+
 def set_exit_key(int key):
     SetExitKey(key)
 
@@ -104,10 +108,10 @@ def mouseX():
 def mouseY():
     return GetMouseY()
 
-def mDeltaX():
+def mouseDeltaX():
     return GetMouseDelta().x
 
-def mDeltaY():
+def mouseDeltaY():
     return GetMouseDelta().y
 
 def window_should_close():
