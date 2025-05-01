@@ -12,7 +12,7 @@ cdef extern from "raylib.h":
     void ClearBackground(Color color)
     void DrawRectangle(int posX, int posY, int width, int height, Color color)
     void DrawCircle(int centerX, int centerY, float radius, Color color)
-
+    int GetRandomValue(int min, int max)
     int WindowShouldClose()
     void WaitTime(double seconds)
     struct Color:
@@ -91,6 +91,9 @@ cdef double sindf(double x):
 
 def sinf(float x):
     return sindf(x)
+
+def random(int min, int max):
+    return GetRandomValue(min, max)
 
 def set_exit_key(int key):
     SetExitKey(key)
