@@ -6,7 +6,6 @@ if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 sys.path.append(os.path.join(current_dir, 'modules/'))
 from raylib_wrapper import *
-<<<<<<< HEAD
 logging = False  # Set to True for mouse position logging
 
 def main():
@@ -101,7 +100,6 @@ def main():
     # end_blend_mode()
     
     # Clean up resources
-=======
 logging = True
 
 def main():
@@ -166,7 +164,7 @@ def main():
         ##END DRAWING##
 
     end_blend_mode()
->>>>>>> 3323f1e (Fixup)
+
     unload_texture(cursor_texture)
     unload_texture(tv_texture)
     close_window()
@@ -174,7 +172,3 @@ def main():
 if __name__ == "__main__":
     main()
     exit(0)
-<<<<<<< HEAD
-=======
-
->>>>>>> 3323f1e (Fixup)
