@@ -10,10 +10,7 @@ logging = False  # Set to True for mouse position logging
 
 def main():
     screen_width  = 1920 >> 2  # 480
-    screen_height = 1080 >> 2  # 270
-    WHITE    = ColorRGB(255, 255, 255, 255)
-    BLACK    = ColorRGB(  0,   0,   0, 255)
-    BLANK    = ColorRGB(  0,   0,   0,   0)
+    screen_height = 1080 >> 2  # 270    
 
     set_target_fps(60)
     set_exit_key(0)
@@ -66,15 +63,15 @@ def main():
         n_blocks = int(TV_RIGHT * TV_BOTTOM * 0.3)
         block_size = 1
         for _ in range(n_blocks):
-            x  = random(0,  220)#dimensions of the inside of the TV in the png
-            y  = random(0 , 160)
+            x  = random(0,  220)#dimensions of the
+            y  = random(0 , 160)#inside of the TV (png image)
             ra = random(0, 100)
             rb = random(5, 15) if ra < 5 else ra
             r  = 200 if rb < 10 else rb
             rand_grayscale = random(20, 150) if r < 200 else r
             #rand_grayscale = random(20, 150)
-            color = ColorRGB(rand_grayscale, rand_grayscale, rand_grayscale, 255)
-            draw_rect(x+TV_LEFT, y+TV_TOP, block_size, block_size, color)
+            color_generated = ColorRGB(rand_grayscale, rand_grayscale, rand_grayscale, 255)
+            draw_rect(x+TV_LEFT, y+TV_TOP, block_size, block_size, color_generated)
         
         end_texture_mode()
         ##END TEXTURE##
@@ -90,14 +87,15 @@ def main():
         # Draw cursor
         # draw_texture(cursor_texture, mouseX(), mouseY(), WHITE)
         
-        if logging and (mouseDeltaX() or mouseDeltaY()):
-            print(f" Frame {frame_counter} | ({mouseX()}, {mouseY()})")
+        # if logging and (mouseDeltaX() or mouseDeltaY()):
+            # print(f" Frame {frame_counter} | ({mouseX()}, {mouseY()})")
             
         end_drawing()
         ##END DRAWING##
 
     # end_blend_mode()
     
+    # Clean up resources
     unload_texture(cursor_texture)
     unload_texture(tv_texture)
     close_window()
