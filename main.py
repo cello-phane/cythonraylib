@@ -6,7 +6,7 @@ if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 sys.path.append(os.path.join(current_dir, 'modules/'))
 from raylib_wrapper import *
-logging = False  # Set to True for mouse position logging
+logging = True  # Set to True for mouse position logging
 
 def main():
     screen_width  = 1920 >> 2  # 480
@@ -17,24 +17,12 @@ def main():
     exitWindow = False
     gl_enable(0x0BE2)
     gl_blend_func(0x0302, 0x0303)
-    # Flag for window transparency
-    set_config_flags(0x00000010)
+
+    set_config_flags(FLAG_WINDOW_TRANSPARENT)
     
     init_window(screen_width, screen_height, "TV Static")
 
-    # FLAG_VSYNC_HINT          = 0x00000040,   // Set to try enabling V-SYNC on GPU
-    # FLAG_FULLSCREEN_MODE     = 0x00000002,   // Set to run program in fullscreen
-    # FLAG_WINDOW_RESIZABLE    = 0x00000004,   // Set to allow window resizing
-    # FLAG_WINDOW_UNDECORATED  = 0x00000008,   // Set to disable window decorations (frame, buttons)
-    # FLAG_WINDOW_HIDDEN       = 0x00000080,   // Set to hide window
-    # FLAG_WINDOW_MINIMIZED    = 0x00000200,   // Set window minimized
-    # FLAG_WINDOW_MAXIMIZED    = 0x00000400,   // Set window maximized
-    # FLAG_WINDOW_UNFOCUSED    = 0x00000800,   // Set window unfocused (requires support)
-    # FLAG_WINDOW_TOPMOST      = 0x00001000,   // Set window always on top
-    # FLAG_WINDOW_ALWAYS_RUN   = 0x00000100,   // Set to allow running when minimized/unfocused
-    # FLAG_MSAA_4X_HINT        = 0x00000020,   // Set to try enabling 4x MSAA
-    # FLAG_INTERLACED_HINT     = 0x00010000    // Set to try enabling interlaced video format
-    set_window_state(0x00010000 | 0x00000800 | 0x00000008 | 0x00000020)
+    set_window_state(FLAG_INTERLACED_HINT | FLAG_WINDOW_UNFOCUSED | FLAG_WINDOW_UNDECORATED | FLAG_MSAA_4X_HINT)
     
     # NOTE: Loading textures must be done after init window
     cursor_texture = load_texture("Resources/mycursor.png")
@@ -42,7 +30,7 @@ def main():
 
     noise_render_texture = load_render_texture(screen_width, screen_height)
     noise_texture = get_target_texture(noise_render_texture)
-    
+    hide_cursor()    
     frame_counter = 0
     # begin_blend_mode(0)  # Normal blend mode
 
@@ -85,10 +73,10 @@ def main():
         draw_texture(noise_texture, 0, 5, ColorRGB(255, 255, 255, 240))
         
         # Draw cursor
-        # draw_texture(cursor_texture, mouseX(), mouseY(), WHITE)
+        draw_texture(cursor_texture, mouseX(), mouseY(), WHITE)
         
-        # if logging and (mouseDeltaX() or mouseDeltaY()):
-            # print(f" Frame {frame_counter} | ({mouseX()}, {mouseY()})")
+        if logging and (mouseDeltaX() or mouseDeltaY()):
+            print(f" Frame {frame_counter} | ({mouseX()}, {mouseY()})")
             
         end_drawing()
         ##END DRAWING##

@@ -274,6 +274,7 @@ def set_config_flags(unsigned int flags):
 def get_target_texture(RenderTexture target):
     return target.texture
 
+#colors from raylib
 WHITE	   = Color(255, 255, 255, 255)
 PURPLE     = Color(200, 122, 255, 255)
 LIGHTGRAY  = Color(200, 200, 200, 255)
@@ -301,3 +302,19 @@ BLACK      = Color(0, 0, 0, 255      )
 BLANK      = Color(0, 0, 0, 0        )
 MAGENTA    = Color(255, 0, 255, 255  )
 RAYWHITE   = Color(245, 245, 245, 255)
+
+#Window states
+FLAG_VSYNC_HINT          = 0x00000040
+FLAG_FULLSCREEN_MODE     = 0x00000002
+FLAG_WINDOW_RESIZABLE    = 0x00000004
+FLAG_WINDOW_UNDECORATED  = 0x00000008
+FLAG_WINDOW_HIDDEN       = 0x00000080
+FLAG_WINDOW_MINIMIZED    = 0x00000200
+FLAG_WINDOW_MAXIMIZED    = 0x00000400
+FLAG_WINDOW_UNFOCUSED    = 0x00000800
+FLAG_WINDOW_TOPMOST      = 0x00001000
+FLAG_WINDOW_ALWAYS_RUN   = 0x00000100
+FLAG_MSAA_4X_HINT        = 0x00000020
+FLAG_INTERLACED_HINT     = 0x00010000
+#Transparent framebuffer(Config Flags)
+FLAG_WINDOW_TRANSPARENT = 0x00000010
