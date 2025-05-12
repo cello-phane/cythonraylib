@@ -14,6 +14,7 @@ cdef extern from "raylib.h":
     void ClearBackground(Color color)
     void DrawRectangle(int posX, int posY, int width, int height, Color color)
     void DrawCircle(int centerX, int centerY, float radius, Color color)
+    void DrawText(const char *text, int posX, int posY, int fontSize, Color color)
     int GetRandomValue(int min, int max)
     int WindowShouldClose()
     void WaitTime(double seconds)
@@ -161,6 +162,9 @@ def draw_rect(int x, int y, int w, int h, Color color):
 
 def draw_circle(int center_x, int center_y, int radius, Color color):
     DrawCircle(center_x, center_y, radius, color)
+
+def draw_text(str text, int posX, int posY, int fontSize, Color color):
+    DrawText(bytes(text, "ascii"), posX, posY, fontSize, color)
 
 def show_cursor():
     ShowCursor()
