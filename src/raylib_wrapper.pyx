@@ -4,15 +4,6 @@ import sys
 import os
 from libc.math cimport sin
 
-cdef extern from "GL/gl.h":
-    void glEnable(unsigned int cap)
-    void glBlendFunc(unsigned int sfactor, unsigned int dfactor)
-def gl_enable(unsigned int cap):
-    glEnable(cap)
-    
-def gl_blend_func(unsigned int sfactor, unsigned int dfactor):
-    glBlendFunc(sfactor, dfactor)
-
 cdef extern from "raylib.h":
     void InitWindow(int width, int height, const char *title)
     void CloseWindow()
@@ -96,8 +87,8 @@ cdef extern from "raylib.h":
     RenderTexture LoadRenderTexture(int width, int height)
     # Begin drawing to render texture
     void BeginTextureMode(RenderTexture target)
-    # Ends drawing to render texture  
-    void EndTextureMode()                       
+    # Ends drawing to render texture
+    void EndTextureMode()
     void SetWindowState(unsigned int flags)
     # Configures window to be transparent
     void SetConfigFlags(unsigned int flags)
