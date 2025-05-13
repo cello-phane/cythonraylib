@@ -39,7 +39,6 @@ def main():
     while (not exitWindow):
         if (rl.is_key_pressed(256) or rl.window_should_close()):
             exitWindow = True
-        rl.draw_text("A window!", 20, 20, 42, rl.WHITE)
         frame_counter += 1
 
         ##BEGIN TEXTURE##        
@@ -72,6 +71,7 @@ def main():
 
         # Draw cursor
         rl.draw_texture(cursor_texture, rl.mouseX(), rl.mouseY(), rl.WHITE)
+        rl.draw_text("CHANNEL #42", 20, 20, 22, rl.BLUE)
 
         if logging and (rl.mouseDeltaX() or rl.mouseDeltaY()):
             print(f" Frame {frame_counter} | ({rl.mouseX()}, {rl.mouseY()})")
