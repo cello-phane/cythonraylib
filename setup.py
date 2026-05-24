@@ -3,11 +3,17 @@ from Cython.Build import cythonize
 import platform
 import os
 
+# If using mingw, this flag must be passed too when running this script: python setup.py build --compiler=mingw32 
+# if static lib is available
+static_lib_path = os.path.abspath("libraylib.a")
+
 # Platform-specific settings
 if platform.system() == "Windows":
-    libraries = ["raylib", "opengl32", "gdi32", "winmm", "user32", "shell32"]
-    library_dirs = ["C:/Users/admin/py/cythonraylib/raylib/lib"]
-    include_dirs = ["C:/Users/admin/py/cythonraylib/raylib/include"]
+    # Add the below if linking with shared(dyanmic) .lib file
+    #libraries = ["raylib"] 
+    libraries = ["opengl32", "gdi32", "winmm", "user32", "shell32"]
+    library_dirs = ["C:/Users/xxpwb/py/cythonraylib/raylib/lib", "C:/raylib/raylib/src"]
+    include_dirs = ["C:/Users/xxpwb/py/cythonraylib/raylib/include", "C:/raylib/raylib/src"]
     extra_compile_args = []
     extra_link_args = []
 else:  # Linux/Mac
@@ -26,6 +32,8 @@ extensions = [
         include_dirs=include_dirs,
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args,
+	# Use extra_objects to link the static library directly
+	extra_objects=[static_lib_path],
     ),
 ]
 
