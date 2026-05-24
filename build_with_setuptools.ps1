@@ -52,9 +52,9 @@ Write-Host "Running Python commands..."
 python setup.py build
 # Optional step (move or copy the .pyd/.so to any folder conveniently located)
 if ($IsWindows -or $env:OS -match "Windows") {
-	Copy-Item -Force build/lib.win-amd64-cpython-312/$PYX_FILE.cp312-win_amd64.pyd modules/$LIB_FILE.pyd
+	Copy-Item -Force build/lib.win-amd64-cpython-314/$PYX_FILE.cp314-win_amd64.pyd modules/$LIB_FILE.pyd
 } else {
     # Linux/macOS
-	Copy-Item -Force build/lib.linux-x86_64-cpython-312/$PYX_FILE.cpython-312-x86_64-linux-gnu.so modules/$LIB_FILE.so
+	Copy-Item -Force build/lib.linux-x86_64-cpython-314/$PYX_FILE.cpython-314-x86_64-linux-gnu.so modules/$LIB_FILE.so
 }
 #python main.py
