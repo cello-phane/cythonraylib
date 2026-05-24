@@ -2,15 +2,15 @@
 # Set project directory and virtual environment path relative to user home
 #              ------- User 
 #              v
-# C:\Users\USERNAME\code\py\cythonraylib
+# C:\Users\USERNAME\py\cythonraylib
 #                               ^--- Project folder(setup.py & main.py inside)
-# C:\Users\USERNAME\code\py\.venv
+# C:\Users\USERNAME\py\.venv
 #                               ^--- Python virtual env
 
 if ($IsWindows -or $env:OS -match "Windows") {
-    $TOPDIR = "C:\Users\USERNAME\code\py"
+    $TOPDIR = "C:\Users\USERNAME\py"
 } else {
-    $TOPDIR = "/home/USERNAME/code/py"
+    $TOPDIR = "/home/USERNAME/py"
 }
 $PROJECT_FOLDER = "cythonraylib"
 $PYX_FILE = "raylib_wrapper"
@@ -57,4 +57,5 @@ if ($IsWindows -or $env:OS -match "Windows") {
     # Linux/macOS
 	Copy-Item -Force build/lib.linux-x86_64-cpython-314/$PYX_FILE.cpython-314-x86_64-linux-gnu.so modules/$LIB_FILE.so
 }
+# Optional setup (Run the program)
 #python main.py
